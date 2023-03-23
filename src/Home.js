@@ -1,11 +1,13 @@
-import './assets/min_file/home.min.css'
+import './assets/min_file/home.min.css';
+import Navbar from './components/navbar/Navbar';
+import './assets/min_file/main.min.css';
+import Contacts from './components/contact/contacts';
 
 const App = () => {
   return (
     <div className="App">
-      <h3>
-        مدیریت مخاطبین
-      </h3>
+      <Navbar />
+      <Contacts />
     </div>
   );
 }
