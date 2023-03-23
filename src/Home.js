@@ -1,4 +1,4 @@
-import './App.css';
+import './assets/min_file/home.min.css'
 
 const App = () => {
   return (
@@ -9,5 +9,4 @@ const App = () => {
     </div>
   );
 }
-
 export default App;
