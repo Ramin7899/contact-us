@@ -1,4 +1,6 @@
-const AddCountact = () => {
+import React from "react"
+
+const AddContact = () => {
     return (
         <React.Fragment>
             <div>
@@ -8,4 +10,4 @@ const AddCountact = () => {
     )
 }
 
-export default AddCountact
+export default AddContact

@@ -1,3 +1,6 @@
+import React from "react"
+
+
 const ViewCountact = () => {
     return (
         <React.Fragment>
