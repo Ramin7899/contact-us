@@ -5,7 +5,7 @@ export { default as EditContact } from './contact/EditContact';
 export { default as SearchContact } from './contact/SearchContact';
 export { default as ViewCountact } from './contact/ViewCountact';
 // 
-export { default as spinner } from './spinner/spinner';
+export { default as Spinner } from './spinner/spinner';
 export { default as Navbar } from './navbar/Navbar';
 
 
