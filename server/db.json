@@ -2,7 +2,7 @@
   "contacts": [
     {
       "fullname": [
-        "رامین احمدی"
+        "رامین احمدی 2"
       ],
       "photo": "https://toplearn.com/img/user/teachers/268_2b05b90b-7a78-4e35-058f-39e6b8cf2ac1_%D8%AD%D8%B3%D9%86%20_%D8%AE%D8%B3%D8%B1%D9%88%D8%AC%D8%B1%D8%AF%DB%8C.jpeg",
       "mobile": "09915556588",
@@ -19,33 +19,6 @@
       "job": "برنامه نویس",
       "group": "3",
       "id": 2
-    },
-    {
-      "fullname": "رامین احمدی",
-      "photo": "kio",
-      "mobile": "09",
-      "email": "raminahmadi7899@gmail.com",
-      "job": "few",
-      "group": "1",
-      "id": 3
-    },
-    {
-      "fullname": "رامین احمدی",
-      "photo": "wef",
-      "mobile": "77",
-      "email": "raminahmadi7899@gmail.com",
-      "job": "few",
-      "group": "1",
-      "id": 4
-    },
-    {
-      "fullname": "رامین احمدی77",
-      "email": "raminahmadi7899@gmail.com",
-      "photo": "wef",
-      "mobile": "77",
-      "job": "few",
-      "group": "5",
-      "id": 5
     }
   ],
   "groups": [

@@ -12,11 +12,13 @@ import {
 
 import { getAllContacts, getAllGroups, createContact, deleteContact } from './services/contactService'
 import { confirmAlert } from 'react-confirm-alert'; // Import
+import { Comment, CurrentLine, Foreground, Purple, Yellow } from "./helpers/colors";
 
 const App = () => {
   const [forceRender, setForceRender] = useState(false);
   const [loading, setLoading] = useState(false);
   const [getContacts, setContacts] = useState([]);
+  const [getFilteredContacts, setFilteredContacts] = useState; ([])
   const [getGroups, setGroups] = useState([]);
   const [getContact, setContact] = useState({
     fullname: "",
@@ -26,6 +28,8 @@ const App = () => {
     job: "",
     group: "",
   });
+
+  const [query, setQuery] = useState({ text: "" })
 
   const navigate = useNavigate();
 
@@ -89,7 +93,33 @@ const App = () => {
     });
   };
 
-  const deleteContact = async (contactId) => {
+  const confirm = (contactId, contactFullname) => {
+    confirmAlert({
+      customUI: ({ onClose }) => {
+        return (
+          <div className="p-4" dir="rtl" style={{ backgroundColor: CurrentLine, border: `1px solid ${Purple}`, borderRadius: '1em' }}>
+            <h1 style={{ color: Yellow }}>
+              پاک کردن مخاطب
+            </h1>
+            <p style={{ color: Foreground }}>
+              مطمئن هستید که میخوایید مخاطب {contactFullname} را حذف کنید؟
+            </p>
+            <button style={{ backgroundColor: Purple }} className="btn mx-2" onClick={() => {
+              removeContact(contactId);
+              onClose();
+            }}>
+              حذف
+            </button>
+            <button onClick={onClose} className="btn" style={{ backgroundColor: Comment }}>
+              انصراف
+            </button>
+          </div>
+        )
+      }
+    })
+  }
+
+  const removeContact = async (contactId) => {
     try {
       setLoading(true)
       const response = await deleteContact(contactId)
@@ -97,7 +127,8 @@ const App = () => {
       if (response) {
         const { data: contactsData } = await getAllContacts()
         setContact(contactsData)
-        setLoading(false)
+        setLoading(false);
+        setForceRender(!forceRender);
       }
 
     } catch (err) {
@@ -106,12 +137,19 @@ const App = () => {
     }
   }
 
+  const contactsearch = event => {
+    setQuery = ({ ...query, text: event.target.value });
+    const allCOntacts = getContacts.filter((contact) => {
+      return contact.fullname.toLowerCase().includes(event.target.value.toLowerCase())
+    })
+  }
+
   return (
     <div className="App">
       <Navbar />
       <Routes>
         <Route path="/" element={<Navigate to="/contacts" />} />
-        <Route path="/contacts" element={<Contacts contacts={getContacts} loading={loading} />} />
+        <Route path="/contacts" element={<Contacts contacts={getContacts} loading={loading} confirmDelete={confirm} />} />
         <Route
           path="/contacts/add"
           element={

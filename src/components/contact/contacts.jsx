@@ -4,7 +4,7 @@ import Contact from "./Contact";
 import NotFound from "../../assets/gif/no-found.gif";
 import { Link } from "react-router-dom";
 
-const Contacts = ({ contacts, loading }) => {
+const Contacts = ({ contacts, loading, confirmDelete }) => {
     return (
         <>
             <section className="container">
@@ -25,7 +25,7 @@ const Contacts = ({ contacts, loading }) => {
                 <section className="container">
                     <div className="row">
                         {contacts.length > 0
-                            ? contacts.map((c) => <Contact key={c.id} contact={c} />)
+                            ? contacts.map((c) => <Contact contact={c} confirmDelete={() => confirmDelete(c.id, c.fullname)} key={c.id} />)
                             : (
                                 <div
                                     className="text-center py-5"
