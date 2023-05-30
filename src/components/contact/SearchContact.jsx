@@ -1,12 +1,12 @@
 import { Purple } from '../../helpers/colors.js';
 
-const SearchContact = () => {
+const SearchContact = ({ query, search }) => {
     return (
         <div className="input-group mx-2 w-75" dir="ltr">
             <span className="input-group-text" id="basic-addon1" style={{ backgroundColor: Purple }}>
                 <i className="fas fa-search"></i>
             </span>
-            <input aria-describedby="basic-addon1" aria-label="Search" placeholder="جستجو مخاطب" type="text" dir="rtl" className="form-control" />
+            <input value={query.text} onChange={search} aria-describedby="basic-addon1" aria-label="Search" placeholder="جستجو مخاطب" type="text" dir="rtl" className="form-control" />
         </div>
     )
 }

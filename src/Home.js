@@ -18,7 +18,8 @@ const App = () => {
   const [forceRender, setForceRender] = useState(false);
   const [loading, setLoading] = useState(false);
   const [getContacts, setContacts] = useState([]);
-  const [getFilteredContacts, setFilteredContacts] = useState; ([])
+  const [getFilteredContacts, setFilteredContacts] = useState([]);
+
   const [getGroups, setGroups] = useState([]);
   const [getContact, setContact] = useState({
     fullname: "",
@@ -42,6 +43,7 @@ const App = () => {
         const { data: contactsData } = await getAllContacts()
         const { data: groupsData } = await getAllGroups()
         setContacts(contactsData);
+        setFilteredContacts(contactsData);
         setGroups(groupsData);
         setLoading(false);
       } catch (err) {
@@ -73,8 +75,7 @@ const App = () => {
     try {
       const { status } = await createContact(getContact);
 
-      console.log(getContact);
-      console.log(status);
+      
       if (status === 201) {
         setContact({});
         setForceRender(!forceRender);
@@ -86,7 +87,6 @@ const App = () => {
   };
 
   const setContactInfo = (event) => {
-    console.log(getContact);
     setContact({
       ...getContact,
       [event.target.name]: event.target.value,
@@ -137,19 +137,22 @@ const App = () => {
     }
   }
 
-  const contactsearch = event => {
-    setQuery = ({ ...query, text: event.target.value });
-    const allCOntacts = getContacts.filter((contact) => {
-      return contact.fullname.toLowerCase().includes(event.target.value.toLowerCase())
-    })
-  }
+  const contactSearch = (event) => {
+    setQuery({ ...query, text: event.target.value });
+    const allContacts = getContacts.filter((contact) => {
+      (contact);
+      return contact.fullname.toLowerCase().includes(event.target.value.toLowerCase());
+    });
+
+    setFilteredContacts(allContacts);
+  };
 
   return (
     <div className="App">
-      <Navbar />
+      <Navbar query={query} search={contactSearch} />
       <Routes>
         <Route path="/" element={<Navigate to="/contacts" />} />
-        <Route path="/contacts" element={<Contacts contacts={getContacts} loading={loading} confirmDelete={confirm} />} />
+        <Route path="/contacts" element={<Contacts contacts={getFilteredContacts} loading={loading} confirmDelete={confirm} />} />
         <Route
           path="/contacts/add"
           element={
