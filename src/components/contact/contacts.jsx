@@ -4,7 +4,13 @@ import Contact from "./Contact";
 import NotFound from "../../assets/gif/no-found.gif";
 import { Link } from "react-router-dom";
 
-const Contacts = ({ contacts, loading, confirmDelete }) => {
+import { useContext } from "react";
+import { ContactContext } from "../../context/contactContext";
+
+const Contacts = () => {
+
+    const { contacts, loading, deleteContact } = useContext(ContactContext);
+
     return (
         <>
             <section className="container">
@@ -25,7 +31,7 @@ const Contacts = ({ contacts, loading, confirmDelete }) => {
                 <section className="container">
                     <div className="row">
                         {contacts.length > 0
-                            ? contacts.map((c) => <Contact contact={c} confirmDelete={() => confirmDelete(c.id, c.fullname)} key={c.id} />)
+                            ? contacts.map((c) => <Contact contact={c} deleteContact={() => deleteContact(c.id, c.fullname)} key={c.id} />)
                             : (
                                 <div
                                     className="text-center py-5"
