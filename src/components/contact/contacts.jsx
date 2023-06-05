@@ -9,7 +9,7 @@ import { ContactContext } from "../../context/contactContext";
 
 const Contacts = () => {
 
-    const { contacts, loading, deleteContact } = useContext(ContactContext);
+    const { filteredContacts, contacts, loading, deleteContact } = useContext(ContactContext);
 
     return (
         <>
@@ -30,8 +30,8 @@ const Contacts = () => {
             {loading ? <Spinner /> : (
                 <section className="container">
                     <div className="row">
-                        {contacts.length > 0
-                            ? contacts.map((c) => <Contact contact={c} deleteContact={() => deleteContact(c.id, c.fullname)} key={c.id} />)
+                        {filteredContacts.length > 0
+                            ? filteredContacts.map((c) => <Contact contact={c} deleteContact={() => deleteContact(c.id, c.fullname)} key={c.id} />)
                             : (
                                 <div
                                     className="text-center py-5"

@@ -72,7 +72,6 @@ const App = () => {
         setLoading((pervLoading) => !pervLoading);
         navigate("/contacts");
       } else {
-        console.log(status);
       }
     } catch (err) {
       console.log(err.message);
@@ -128,18 +127,33 @@ const App = () => {
   };
 
   const removeContact = async (contactId) => {
-    try {
-      setLoading(true);
-      const response = await deleteContact(contactId);
-      if (response) {
-        const { data: contactsData } = await getAllContacts();
+    /*
+     * NOTE
+     * 1- forceRender -> setForceRender
+     * 2- Server Request
+     * 3- Delete Local State
+     * 4- Delete State Before Server Request
+     */
 
-        setContacts(contactsData);
-        setLoading(false);
+    // Contacts Copy
+    const allContacts = [...contacts];
+    try {
+      const updatedContact = contacts.filter((c) => c.id !== contactId);
+      setContacts(updatedContact);
+      setFilteredContacts(updatedContact);
+
+      // Sending delete request to server
+      const { status } = await deleteContact(contactId);
+
+      if (status !== 200) {
+        setContacts(allContacts);
+        setFilteredContacts(allContacts);
       }
     } catch (err) {
       console.log(err.message);
-      setLoading(false);
+
+      setContacts(allContacts);
+      setFilteredContacts(allContacts);
     }
   };
 
@@ -160,9 +174,10 @@ const App = () => {
         loading,
         setLoading,
         contact,
-        setContact,
+        setContacts,
         contactQuery,
         contacts,
+        setFilteredContacts,
         filteredContacts,
         groups,
         onContactChange,
