@@ -55,7 +55,7 @@ const EditContact = () => {
                 const contactIndex = allContacts.findIndex(c => c.id === parseInt(contactId));
                 allContacts[contactIndex] = { ...data };
                 setContacts(allContacts);
-                setFilteredContacts(allContacts)
+                setFilteredContacts(allContacts);
                 navigate("/contacts");
             }
         } catch (err) {

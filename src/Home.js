@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import { confirmAlert } from "react-confirm-alert";
+import _ from 'lodash';
 
 import { ContactContext } from "./context/contactContext";
 import {
@@ -25,6 +26,7 @@ import {
   Yellow,
   Comment,
 } from "./helpers/colors";
+import { contactSchema } from "./validations/contactValidation";
 
 const App = () => {
   const [loading, setLoading] = useState(false);
@@ -32,11 +34,12 @@ const App = () => {
   const [filteredContacts, setFilteredContacts] = useState([]);
   const [groups, setGroups] = useState([]);
   const [contact, setContact] = useState({});
-  const [contactQuery, setContactQuery] = useState({ text: "" });
+  const [errors, setErrors] = useState([]);
 
   const navigate = useNavigate();
 
   useEffect(() => {
+
     const fetchData = async () => {
       try {
         setLoading(true);
@@ -56,12 +59,16 @@ const App = () => {
     };
 
     fetchData();
+
   }, []);
 
   const createContactForm = async (event) => {
     event.preventDefault();
     try {
       setLoading((pervLoading) => !pervLoading);
+
+      await contactSchema.validate(contact, { abortEarly: false });
+
       const { status, data } = await createContact(contact);
 
       if (status === 201) {
@@ -69,12 +76,14 @@ const App = () => {
         setContacts(allContacts);
         setFilteredContacts(allContacts);
         setContact({});
+        setErrors({});
         setLoading((pervLoading) => !pervLoading);
         navigate("/contacts");
       } else {
       }
     } catch (err) {
       console.log(err.message);
+      setErrors(err.inner);
       setLoading((pervLoading) => !pervLoading);
     }
   };
@@ -157,16 +166,20 @@ const App = () => {
     }
   };
 
-  const contactSearch = (event) => {
-    setContactQuery({ ...contactQuery, text: event.target.value });
-    const allContacts = contacts.filter((contact) => {
+  // let filterTimeOut;
+
+  const contactSearch = _.debounce(query => {
+    console.log(query);
+    // clearTimeout(filterTimeOut);
+    if (!query) return setFilteredContacts([...contacts]);
+    // filterTimeOut = setTimeout(() => {
+    setFilteredContacts(contacts.filter((contact) => {
       return contact.fullname
         .toLowerCase()
-        .includes(event.target.value.toLowerCase());
-    });
-
-    setFilteredContacts(allContacts);
-  };
+        .includes(query.toLowerCase());
+    }));
+    // }, 1000)
+  }, 1000);
 
   return (
     <ContactContext.Provider
@@ -175,10 +188,10 @@ const App = () => {
         setLoading,
         contact,
         setContacts,
-        contactQuery,
         contacts,
         setFilteredContacts,
         filteredContacts,
+        errors,
         groups,
         onContactChange,
         deleteContact: confirmDelete,

@@ -8,7 +8,8 @@ import { ContactContext } from "../../context/contactContext";
 
 const AddContact = () => {
 
-    const { loading, contact, groups, onContactChange, createContact } = useContext(ContactContext);
+    const { loading, contact, groups, onContactChange, createContact, errors } = useContext(ContactContext);
+    console.log(errors);
 
     return (
         <>
@@ -42,6 +43,12 @@ const AddContact = () => {
                             <hr style={{ backgroundColor: Green }} />
                             <div className="row mt-5">
                                 <div className="col-md-4">
+
+                                    {errors?.map((error, index) => (
+                                        <p key={index} className="text-danger">
+                                            {error.message}
+                                        </p>
+                                    ))}
                                     <form onSubmit={createContact}>
                                         <div className="mb-2">
                                             <input
@@ -51,7 +58,7 @@ const AddContact = () => {
                                                 onChange={onContactChange}
                                                 className="form-control"
                                                 placeholder="نام و نام خانوادگی"
-                                                required={true}
+                                            // required={true}
                                             />
                                         </div>
                                         <div className="mb-2">
@@ -61,7 +68,7 @@ const AddContact = () => {
                                                 value={contact.photo}
                                                 onChange={onContactChange}
                                                 className="form-control"
-                                                required={true}
+                                                // required={true}
                                                 placeholder="آدرس تصویر"
                                             />
                                         </div>
@@ -72,7 +79,7 @@ const AddContact = () => {
                                                 value={contact.mobile}
                                                 onChange={onContactChange}
                                                 className="form-control"
-                                                required={true}
+                                                // required={true}
                                                 placeholder="شماره موبایل"
                                             />
                                         </div>
@@ -83,7 +90,7 @@ const AddContact = () => {
                                                 value={contact.email}
                                                 onChange={onContactChange}
                                                 className="form-control"
-                                                required={true}
+                                                // required={true}
                                                 placeholder="آدرس ایمیل"
                                             />
                                         </div>
@@ -94,7 +101,7 @@ const AddContact = () => {
                                                 value={contact.job}
                                                 onChange={onContactChange}
                                                 className="form-control"
-                                                required={true}
+                                                // required={true}
                                                 placeholder="شغل"
                                             />
                                         </div>
@@ -103,7 +110,7 @@ const AddContact = () => {
                                                 name="group"
                                                 value={contact.group}
                                                 onChange={onContactChange}
-                                                required={true}
+                                                // required={true}
                                                 className="form-control"
                                             >
                                                 <option value="">انتخاب گروه</option>

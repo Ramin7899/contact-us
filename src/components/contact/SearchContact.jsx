@@ -4,7 +4,7 @@ import { useContext } from 'react';
 
 const SearchContact = ({ query, search }) => {
 
-    const { contactQuery, contactSearch } = useContext(ContactContext);
+    const { contactSearch } = useContext(ContactContext);
 
 
     return (
@@ -12,7 +12,7 @@ const SearchContact = ({ query, search }) => {
             <span className="input-group-text" id="basic-addon1" style={{ backgroundColor: Purple }}>
                 <i className="fas fa-search"></i>
             </span>
-            <input value={contactQuery.text} onChange={contactSearch} aria-describedby="basic-addon1" aria-label="Search" placeholder="جستجو مخاطب" type="text" dir="rtl" className="form-control" />
+            <input onChange={event => contactSearch(event.target.value)} aria-describedby="basic-addon1" aria-label="Search" placeholder="جستجو مخاطب" type="text" dir="rtl" className="form-control" />
         </div>
     )
 }
