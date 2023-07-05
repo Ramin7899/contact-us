@@ -26,7 +26,7 @@ import {
   Yellow,
   Comment,
 } from "./helpers/colors";
-import { contactSchema } from "./validations/contactValidation";
+// import { contactSchema } from "./validations/contactValidation";
 
 const App = () => {
   const [loading, setLoading] = useState(false);
@@ -34,7 +34,7 @@ const App = () => {
   const [filteredContacts, setFilteredContacts] = useState([]);
   const [groups, setGroups] = useState([]);
   const [contact, setContact] = useState({});
-  const [errors, setErrors] = useState([]);
+  // const [errors, setErrors] = useState([]);
 
   const navigate = useNavigate();
 
@@ -62,28 +62,28 @@ const App = () => {
 
   }, []);
 
-  const createContactForm = async (event) => {
-    event.preventDefault();
+  const createContactForm = async (values) => {
+    // event.preventDefault();
     try {
       setLoading((pervLoading) => !pervLoading);
 
-      await contactSchema.validate(contact, { abortEarly: false });
+      // await contactSchema.validate(contact, { abortEarly: false });
 
-      const { status, data } = await createContact(contact);
+      const { status, data } = await createContact(values);
 
       if (status === 201) {
         const allContacts = [...contacts, data];
         setContacts(allContacts);
         setFilteredContacts(allContacts);
-        setContact({});
-        setErrors({});
+        // setContact({});
+        // setErrors({});
         setLoading((pervLoading) => !pervLoading);
         navigate("/contacts");
       } else {
       }
     } catch (err) {
       console.log(err.message);
-      setErrors(err.inner);
+      // setErrors(err.inner);
       setLoading((pervLoading) => !pervLoading);
     }
   };
@@ -191,7 +191,7 @@ const App = () => {
         contacts,
         setFilteredContacts,
         filteredContacts,
-        errors,
+        // errors,
         groups,
         onContactChange,
         deleteContact: confirmDelete,

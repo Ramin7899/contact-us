@@ -2,14 +2,35 @@ import { Link } from "react-router-dom";
 
 import { Spinner } from "../";
 import { Comment, Green, Purple } from "../../helpers/colors";
-
+import { useFormik } from "formik";
+import { contactSchema } from "../../validations/contactValidation";
 import { useContext } from "react";
 import { ContactContext } from "../../context/contactContext";
+import { values } from "lodash";
+
 
 const AddContact = () => {
 
-    const { loading, contact, groups, onContactChange, createContact, errors } = useContext(ContactContext);
-    console.log(errors);
+    const { loading, contact, groups, onContactChange, createContact,
+        //  errors 
+    } = useContext(ContactContext);
+    // console.log(errors);
+
+    const formik = useFormik({
+        initialValues: {
+            fullname: '',
+            photo: '',
+            mobile: '',
+            email: '',
+            job: '',
+            group: '',
+        },
+        validationSchema: contactSchema,
+        onSubmit: values => {
+            console.log(values);
+            createContact(values)
+        }
+    });
 
     return (
         <>
@@ -44,72 +65,76 @@ const AddContact = () => {
                             <div className="row mt-5">
                                 <div className="col-md-4">
 
-                                    {errors?.map((error, index) => (
+                                    {/* {errors?.map((error, index) => (
                                         <p key={index} className="text-danger">
                                             {error.message}
                                         </p>
-                                    ))}
-                                    <form onSubmit={createContact}>
+                                    ))} */}
+                                    <form onSubmit={formik.handleSubmit}>
                                         <div className="mb-2">
                                             <input
-                                                name="fullname"
+                                                id="fullname"
                                                 type="text"
-                                                value={contact.fullname}
-                                                onChange={onContactChange}
+                                                {...formik.getFieldProps('fullname')}
                                                 className="form-control"
                                                 placeholder="نام و نام خانوادگی"
                                             // required={true}
                                             />
+                                            {formik.touched.fullname && formik.errors.fullname ? (<div className="text-danger">{formik.errors.fullname}</div>) : null}
                                         </div>
                                         <div className="mb-2">
-                                            <input
-                                                name="photo"
+                                            <input id="photo"
                                                 type="text"
-                                                value={contact.photo}
-                                                onChange={onContactChange}
+                                                {...formik.getFieldProps('photo')}
                                                 className="form-control"
                                                 // required={true}
                                                 placeholder="آدرس تصویر"
                                             />
+                                            {formik.touched.photo && formik.errors.photo ? (<div className="text-danger">{formik.errors.photo}</div>) : null}
+
                                         </div>
                                         <div className="mb-2">
                                             <input
-                                                name="mobile"
+                                                id="mobile"
                                                 type="number"
-                                                value={contact.mobile}
-                                                onChange={onContactChange}
+                                                {...formik.getFieldProps('mobile')}
                                                 className="form-control"
                                                 // required={true}
                                                 placeholder="شماره موبایل"
                                             />
+                                            {formik.touched.mobile && formik.errors.mobile ? (<div className="text-danger">{formik.errors.mobile}</div>) : null}
+
                                         </div>
                                         <div className="mb-2">
                                             <input
+                                                id="email"
                                                 type="email"
-                                                name="email"
-                                                value={contact.email}
-                                                onChange={onContactChange}
+                                                {...formik.getFieldProps('email')}
                                                 className="form-control"
                                                 // required={true}
                                                 placeholder="آدرس ایمیل"
                                             />
+                                            {formik.touched.email && formik.errors.email ? (<div className="text-danger">{formik.errors.email}</div>) : null}
+
                                         </div>
                                         <div className="mb-2">
                                             <input
+                                                id="job"
                                                 type="text"
-                                                name="job"
-                                                value={contact.job}
-                                                onChange={onContactChange}
+                                                {...formik.getFieldProps('job')}
+
                                                 className="form-control"
                                                 // required={true}
                                                 placeholder="شغل"
                                             />
+                                            {formik.touched.job && formik.errors.job ? (<div className="text-danger">{formik.errors.job}</div>) : null}
+
                                         </div>
                                         <div className="mb-2">
                                             <select
-                                                name="group"
-                                                value={contact.group}
-                                                onChange={onContactChange}
+                                                id="group"
+                                                {...formik.getFieldProps('group')}
+
                                                 // required={true}
                                                 className="form-control"
                                             >
@@ -121,6 +146,8 @@ const AddContact = () => {
                                                         </option>
                                                     ))}
                                             </select>
+                                            {formik.touched.group && formik.errors.group ? (<div className="text-danger">{formik.errors.group}</div>) : null}
+
                                         </div>
                                         <div className="mx-2">
                                             <input
